@@ -113,6 +113,9 @@ def merge(file, usr_input):
 
 
 def write_file(file):
+    """
+    this functions writes the madlib results to text file and saves the file to disk
+    """
     path_name = "assets/user_file.txt"
     with open(path_name, "w") as f:
         f.write(file)
