@@ -1,14 +1,19 @@
 import pytest
 from madlib_cli.madlib import read_template, parse_template, merge
 
+make_a_video_game = """Make Me A Video Game!
+
+I the {Adjective} and {Adjective} {A First Name} have {Past Tense Verb} {A First Name}'s {Adjective} sister and plan to steal her {Adjective} {Plural Noun}!
+
+What are a {Large Animal} and backpacking {Small Animal} to do? Before you can help {A Girl's Name}, you'll have to collect the {Adjective} {Plural Noun} and {Adjective} {Plural Noun} that open up the {Number 1-50} worlds connected to {A First Name}'s Lair. There are {Number} {Plural Noun} and {Number} {Plural Noun} in the game, along with hundreds of other goodies for you to find."""
 
 def test_read_template_returns_stripped_string():
-    actual = read_template("assets/dark_and_stormy_night_template.txt")
+    actual = read_template('assets/dark_and_stormy_night_template.txt')
     expected = "It was a {Adjective} and {Adjective} {Noun}."
     assert actual == expected
 
 
-@pytest.mark.skip("pending")
+#@pytest.mark.skip("false")
 def test_parse_template():
     actual_stripped, actual_parts = parse_template(
         "It was a {Adjective} and {Adjective} {Noun}."
@@ -20,16 +25,23 @@ def test_parse_template():
     assert actual_parts == expected_parts
 
 
-@pytest.mark.skip("pending")
+#@pytest.mark.skip("active")
 def test_merge():
     actual = merge("It was a {} and {} {}.", ("dark", "stormy", "night"))
     expected = "It was a dark and stormy night."
     assert actual == expected
 
 
-@pytest.mark.skip("pending")
+#@pytest.mark.skip("active")
 def test_read_template_raises_exception_with_bad_path():
-
     with pytest.raises(FileNotFoundError):
         path = "missing.txt"
         read_template(path)
+
+
+def test_read_template_returns_stripped_string_two():
+    actual = read_template('assets/make_me_a_video_game_template.txt')
+    expected = make_a_video_game
+    assert actual == expected
+
+
