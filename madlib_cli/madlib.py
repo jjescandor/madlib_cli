@@ -15,15 +15,11 @@ What are a gorilla and backpacking butterfly to do? Before you can help Betty, y
 default_path = "assets/make_me_a_video_game_template.txt"
 
 welcome = """
-Welcome to python madlib."\"
+Welcome to python madlib.\n
 You will be asked a series of questions to play the game
 """
 
-
 def read_template(path=default_path):
-    """
-    this function returns the text written in a text file if the file exists
-    """
     madlib = ""
     if not os.path.isfile(path):
         raise FileNotFoundError
@@ -34,88 +30,27 @@ def read_template(path=default_path):
 
 
 def parse_template(raw=read_template()):
-    """
-    this functions returns the stripped file as well as the stripped parts
-    """
-    c = list(re.split(r"[{}]", raw))
-    cleaned_txt = []
-    parts = []
-    for a in c:
-        if "adjective" in a.lower():
-            parts.append(a)
-            cleaned_txt.append("{}")
-        elif "noun" in a.lower():
-            parts.append(a)
-            cleaned_txt.append("{}")
-        elif "first name" in a.lower():
-            parts.append(a)
-            cleaned_txt.append("{}")
-        elif "past tense verb" in a.lower():
-            parts.append(a)
-            cleaned_txt.append("{}")
-        elif "num" in a.lower():
-            parts.append(a)
-            cleaned_txt.append("{}")
-        elif "large animal" in a.lower():
-            parts.append(a)
-            cleaned_txt.append("{}")
-        elif "small animal" in a.lower():
-            parts.append(a)
-            cleaned_txt.append("{}")
-        elif "girl's name" in a.lower():
-            parts.append(a)
-            cleaned_txt.append("{}")
-        else:
-            cleaned_txt.append(a)
-    return ["".join(cleaned_txt), tuple(parts)]
+    pattern = r'\{[^}]*\}'
+    pattern_two = r'{([^}]*)}'
+    cleaned_txt = re.sub(pattern, "{}", raw)
+    parts = tuple(re.findall(pattern_two, raw))
+    return [cleaned_txt, parts]
 
 
 def get_user_input(raw=read_template()):
-    """
-    this functions prompts input from user
-    """
-    parse_template()
-    c = list(re.split(r"[{}]", raw))
-    b = []
-    for a in c:
-        if "adjective" in a.lower():
-            d = input("Enter an adjective: ")
-            b.append(d)
-        elif "noun" in a.lower():
-            d = input("Enter a noun: ")
-            b.append(d)
-        elif "first name" in a.lower():
-            d = input("Enter a first name: ")
-            b.append(d)
-        elif "past tense verb" in a.lower():
-            d = input("Enter a past tense verb: ")
-            b.append(d)
-        elif "num" in a.lower():
-            d = input("Enter a number (1-50): ")
-            b.append(d)
-        elif "large animal" in a.lower():
-            d = input("Enter a large animal: ")
-            b.append(d)
-        elif "small animal" in a.lower():
-            d = input("Enter a small animal ")
-            b.append(d)
-        elif "girl's name" in a.lower():
-            d = input("Enter a small animal ")
-            b.append(d)
-    return b
+    usr_answers = []
+    parts = parse_template(raw)[1]
+    for part in parts:
+        prompt = input(f"Enter {part}: ")
+        usr_answers.append(prompt)
+    return usr_answers
 
 
 def merge(file, usr_input):
-    """
-    this function merges stripped file and user input
-    """
     return file.format(*usr_input)
 
 
 def write_file(file):
-    """
-    this functions writes the madlib results to text file and saves the file to disk
-    """
     path_name = "assets/user_file.txt"
     with open(path_name, "w") as f:
         f.write(file)
@@ -130,6 +65,9 @@ def write_file(file):
 
 
 if __name__ == "__main__":
+    print(welcome)
     new_file = merge(parse_template()[0], tuple(get_user_input()))
+    print('*'*10)
     print(new_file)
+    print('*'*10)
     write_file(new_file)
