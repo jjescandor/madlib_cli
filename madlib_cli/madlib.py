@@ -15,8 +15,11 @@ What are a gorilla and backpacking butterfly to do? Before you can help Betty, y
 default_path = "assets/make_me_a_video_game_template.txt"
 
 welcome = """
+        *******
 Welcome to python madlib.\n
-You will be asked a series of questions to play the game
+You will be asked a series
+of questions to play the game
+        *******
 """
 
 
