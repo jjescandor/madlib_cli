@@ -15,21 +15,31 @@ What are a gorilla and backpacking butterfly to do? Before you can help Betty, y
 default_path = "assets/make_me_a_video_game_template.txt"
 
 welcome = """
+        *******
 Welcome to python madlib.\n
-You will be asked a series of questions to play the game
+You will be asked a series
+of questions to play the game
+        *******
 """
 
+
 def read_template(path=default_path):
-    madlib = ""
+    """
+    This function opens the file path and read the file's contents.
+    It raises an error if file is not found
+    """
     if not os.path.isfile(path):
         raise FileNotFoundError
     else:
         with open(path) as f:
-            madlib = f.read()
-    return madlib
+            return f.read()
 
 
 def parse_template(raw=read_template()):
+    """
+    This functions uses regex to strip the file contents off of required user input parameters.
+    It returns the stripped file as a string and the required input parameters as a tuple.
+    """
     pattern = r'\{[^}]*\}'
     pattern_two = r'{([^}]*)}'
     cleaned_txt = re.sub(pattern, "{}", raw)
@@ -38,6 +48,9 @@ def parse_template(raw=read_template()):
 
 
 def get_user_input(raw=read_template()):
+    """
+    This function gets user input for madlib answers and returns the answers as a list
+    """
     usr_answers = []
     parts = parse_template(raw)[1]
     for part in parts:
@@ -47,10 +60,17 @@ def get_user_input(raw=read_template()):
 
 
 def merge(file, usr_input):
+    """
+    This function merges the stripped text file and user input and returns the newly created string.
+    """
     return file.format(*usr_input)
 
 
 def write_file(file):
+    """
+    This function writes the newly created string as a text file.
+    It checks if the text file is successfully written into the disk.
+    """
     path_name = "assets/user_file.txt"
     with open(path_name, "w") as f:
         f.write(file)
