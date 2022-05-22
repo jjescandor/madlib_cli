@@ -1,5 +1,7 @@
 from os import read
 import re
+from pathlib import Path
+import os
 
 """
 Make Me A Video Game!
@@ -23,9 +25,11 @@ def read_template(path=default_path):
     this function returns the text written in a text file if the file exists
     """
     madlib = ""
-    with open(path) as f:
-        madlib = f.read()
-        print("Wrong file or file path")
+    if not os.path.isfile(path):
+        raise FileNotFoundError
+    else:
+        with open(path) as f:
+            madlib = f.read()
     return madlib
 
 
@@ -108,5 +112,21 @@ def merge(file, usr_input):
     return file.format(*usr_input)
 
 
+def write_file(file):
+    path_name = "assets/user_file.txt"
+    with open(path_name, "w") as f:
+        f.write(file)
+        path = Path(path_name)
+        save_file = path.is_file()
+        print(f"File saved to disk: {   save_file}")
+    try:
+        with open(path_name) as f:
+            f.read()
+    except FileNotFoundError:
+        print("File not found")
+
+
 if __name__ == "__main__":
-    print(merge(parse_template()[0], tuple(get_user_input())))
+    new_file = merge(parse_template()[0], tuple(get_user_input()))
+    print(new_file)
+    write_file(new_file)
