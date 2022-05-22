@@ -21,6 +21,9 @@ You will be asked a series of questions to play the game
 
 
 def read_template(path=default_path):
+    """
+    this function returns the text written in a text file if the file exists
+    """
     madlib = ""
     if not os.path.isfile(path):
         raise FileNotFoundError
@@ -31,6 +34,9 @@ def read_template(path=default_path):
 
 
 def parse_template(raw=read_template()):
+    """
+    this functions returns the stripped file as well as the stripped parts
+    """
     c = list(re.split(r"[{}]", raw))
     cleaned_txt = []
     parts = []
@@ -65,6 +71,9 @@ def parse_template(raw=read_template()):
 
 
 def get_user_input(raw=read_template()):
+    """
+    this functions prompts input from user
+    """
     parse_template()
     c = list(re.split(r"[{}]", raw))
     b = []
@@ -97,10 +106,16 @@ def get_user_input(raw=read_template()):
 
 
 def merge(file, usr_input):
+    """
+    this function merges stripped file and user input
+    """
     return file.format(*usr_input)
 
 
 def write_file(file):
+    """
+    this functions writes the madlib results to text file and saves the file to disk
+    """
     path_name = "assets/user_file.txt"
     with open(path_name, "w") as f:
         f.write(file)
